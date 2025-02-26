@@ -176,286 +176,6 @@ fun RibbonTab(
 }
 
 
-
-
-interface IRibbonSubComponent {
-    fun getName(): String
-    @Composable
-    fun compose(scaleSize: RibbonGroup.RibbonComponentSize)
-}
-
-
-abstract class AbstractRibbonButton(
-    private val name: String,
-    private val imageLarge: DrawableResource,
-    private val imageSmall: DrawableResource
-) : IRibbonSubComponent {
-    override fun getName(): String = name
-}
-
-class RibbonButton(private val name: String, private val imageLarge: DrawableResource,  private val imageSmall: DrawableResource) : AbstractRibbonButton(name, imageLarge, imageSmall){
-    @Composable
-    override fun compose(scaleSize: RibbonGroup.RibbonComponentSize) {
-
-
-            if(scaleSize == RibbonGroup.RibbonComponentSize.Large ) {
-             //   Column {
-                    Image(
-                        painter = painterResource(imageLarge),
-                        contentDescription = "Sample",
-                        contentScale = ContentScale.None
-                    )
-                    Text("$name")
-             //   }
-            }
-            if(scaleSize ==  RibbonGroup.RibbonComponentSize.Medium) {
-            //    Row {
-                    Image(
-                        painter = painterResource(imageSmall),
-                        contentDescription = "Sample",
-                        contentScale = ContentScale.None
-                    )
-                    Text("$name")
-             //   }
-            }
-        if( scaleSize ==  RibbonGroup.RibbonComponentSize.Small) {
-            //    Row {
-            Image(
-                painter = painterResource(imageSmall),
-                contentDescription = "Sample",
-                contentScale = ContentScale.None
-            )
-
-            //   }
-        }
-    }
-
-}
-
-class RibbonGroup(
-    private val name: String,
-    private val idealSize: RibbonComponentSize = RibbonComponentSize.Medium,
-    private val scaleOrder: Int = SCALE_ORDER_ANY,
-    private val scaleSize: RibbonComponentSize = RibbonComponentSize.Small,
-    private val ribbonSubComponents: List<IRibbonSubComponent>,
-    private val sizeDefinition: SizeDefinition
-) {
-    enum class RibbonComponentSize{
-        Small,
-        Medium,
-        Large
-    }
-
-    enum class SizeDefinition {
-        OneButton,
-        TwoButtons,
-        ThreeButtons,
-        FourButtons,
-        FiveOrSixButtons
-    }
-
-    companion object {
-        const val SCALE_ORDER_ANY=-1
-    }
-
-    fun getScaleOrder() = scaleOrder
-    fun getScaleSize() = scaleSize
-    fun getName() = name  //name must be unique
-
-    @Composable
-    fun oneButton() {
-        if(scaleSize != RibbonComponentSize.Large) {
-            throw IllegalArgumentException("Only large RibbonComponentSize are supported for OneButton size definition")
-        }
-        ribbonSubComponents.first().compose(RibbonComponentSize.Large)
-    }
-
-    @Composable
-    fun twoButtons(scaleSize: RibbonComponentSize) {
-        if(scaleSize == RibbonComponentSize.Large){
-            Row {
-                ribbonSubComponents.forEach { subComponent ->
-                    Column {
-                        subComponent.compose(scaleSize)
-                    }
-                }
-            }
-        }
-        else if(scaleSize == RibbonComponentSize.Medium){
-            ribbonSubComponents.forEach { subComponent ->
-                Row {
-                    subComponent.compose(scaleSize)
-                }
-            }
-        }else{
-            throw IllegalArgumentException("Only large and medium RibbonComponentSize are supported for TwoButtons size definition")
-        }
-    }
-
-    @Composable
-    fun threeButtons(scaleSize: RibbonComponentSize) {
-        if(ribbonSubComponents.count() != 3) {
-            throw IllegalArgumentException("threeButtons only accepts 3 buttons")
-        }
-        if(scaleSize == RibbonComponentSize.Large){
-            Row {
-                ribbonSubComponents.forEach { subComponent ->
-                    Column {
-                        subComponent.compose(scaleSize)
-                    }
-                }
-            }
-        }
-        else if(scaleSize == RibbonComponentSize.Medium){
-            ribbonSubComponents.forEach { subComponent ->
-                Row {
-                    subComponent.compose(scaleSize)
-                }
-            }
-        }else{
-            throw IllegalArgumentException("Only large and medium RibbonComponentSize are supported for ThreeButtons size definition")
-        }
-    }
-
-    @Composable
-    fun fourButtons(scaleSize: RibbonComponentSize) {
-        if(ribbonSubComponents.count() != 4) {
-            throw IllegalArgumentException("fourButtons only accepts 4 buttons")
-        }
-        if(scaleSize == RibbonComponentSize.Large){
-            Row {
-                ribbonSubComponents.forEach { subComponent ->
-                    Column {
-                        subComponent.compose(scaleSize)
-                    }
-                }
-            }
-        }
-        else if(scaleSize == RibbonComponentSize.Medium){
-            Row {
-                Column {
-                    ribbonSubComponents[0].compose(RibbonComponentSize.Large)
-                }
-                Column {
-                    Row {
-                        ribbonSubComponents[1].compose(RibbonComponentSize.Medium)
-                    }
-                    Row {
-                        ribbonSubComponents[2].compose(RibbonComponentSize.Medium)
-                    }
-                    Row {
-                        ribbonSubComponents[3].compose(RibbonComponentSize.Medium)
-                    }
-                }
-            }
-        }else if(scaleSize == RibbonComponentSize.Small){
-            Row {
-                Column {
-                    ribbonSubComponents[0].compose(RibbonComponentSize.Large)
-                }
-                Column {
-                    Row {
-                        ribbonSubComponents[1].compose(RibbonComponentSize.Small)
-                    }
-                    Row {
-                        ribbonSubComponents[2].compose(RibbonComponentSize.Small)
-                    }
-                    Row {
-                        ribbonSubComponents[3].compose(RibbonComponentSize.Small)
-                    }
-                }
-            }
-        }
-    }
-
-
-    @Composable
-    fun compose(scaleSize: RibbonComponentSize = this.idealSize) {
-        when(this.sizeDefinition){
-            SizeDefinition.OneButton -> {
-                Column {
-                    oneButton()
-                }
-            }
-            SizeDefinition.TwoButtons -> {
-                Column {
-                    twoButtons(scaleSize)
-                }
-            }
-            SizeDefinition.ThreeButtons -> {
-                Column {
-                    threeButtons(scaleSize)
-                }
-            }
-            SizeDefinition.FourButtons -> {
-                Column {
-                    fourButtons(scaleSize)
-                }
-            }
-            SizeDefinition.FiveOrSixButtons -> {
-
-            }
-        }
-
-
-
-    }
-
-}
-
-class RibbonTabComponents(private val ribbonGroups: List<RibbonGroup>) {
-    fun getGroups():  List<RibbonGroup> = ribbonGroups
-    private var scaledStateIndex = 0
-
-    private val stackScaleOrder : ArrayDeque<RibbonGroup> = ArrayDeque<RibbonGroup>(ribbonGroups.sortedBy { it.getScaleOrder() })
-
-    @Composable
-    fun compose(scaleSize: RibbonGroup.RibbonComponentSize? = null) {
-        ribbonGroups.forEach { group ->
-            if(scaleSize != null)
-                group.compose(scaleSize!!)
-            else
-                group.compose()
-        }
-    }
-
-    fun hasMoreScaleRules(): Boolean {
-        return scaledStateIndex < stackScaleOrder.size
-    }
-
-    fun resetScaledIndex() {
-        scaledStateIndex = 0
-    }
-
-    @Composable
-    fun composeScaled() {
-        if(stackScaleOrder.size == 0){
-            compose()
-        }else {
-            ribbonGroups.forEach { group ->
-                var composed = false
-                stackScaleOrder.forEachIndexed { index, ribbonGroup ->
-                    if (index <= scaledStateIndex &&  group.getName() == ribbonGroup.getName() && !composed) {
-                        group.compose(ribbonGroup.getScaleSize())
-                        composed = true
-                    }
-                }
-                if(!composed)
-                    group.compose()
-            }
-            scaledStateIndex++
-        }
-    }
-
-
-
-    private fun getNextResizeElement(): RibbonGroup {
-        return stackScaleOrder[scaledStateIndex++]
-    }
-}
-
-
-
 //THIS ONE!!! IMPLEMENT HERE!
 @OptIn(ExperimentalUuidApi::class)
 @Composable
@@ -561,8 +281,6 @@ fun App() {
                                 name = "group1",
                                 sizeDefinition = RibbonGroup.SizeDefinition.OneButton,
                                 idealSize = RibbonGroup.RibbonComponentSize.Large,
-                                scaleOrder = 0,
-                                scaleSize = RibbonGroup.RibbonComponentSize.Large,
                                 ribbonSubComponents = listOf<IRibbonSubComponent>(
                                     RibbonButton(
                                         name="button1",
@@ -575,8 +293,6 @@ fun App() {
                                 name = "group2",
                                 sizeDefinition = RibbonGroup.SizeDefinition.TwoButtons,
                                 idealSize = RibbonGroup.RibbonComponentSize.Large,
-                                scaleOrder = 1,
-                                scaleSize = RibbonGroup.RibbonComponentSize.Medium,
                                 ribbonSubComponents = listOf<IRibbonSubComponent>(
                                     RibbonButton(
                                         name="button2",
@@ -593,8 +309,6 @@ fun App() {
                             RibbonGroup(
                                 name = "group3",
                                 idealSize = RibbonGroup.RibbonComponentSize.Large,
-                                scaleOrder = 2,
-                                scaleSize = RibbonGroup.RibbonComponentSize.Medium,
                                 ribbonSubComponents = listOf<IRibbonSubComponent>(
                                     RibbonButton(
                                         name="button4",
@@ -617,8 +331,6 @@ fun App() {
                             RibbonGroup(
                                 name = "group4",
                                 idealSize = RibbonGroup.RibbonComponentSize.Large,
-                                scaleOrder = 3,
-                                scaleSize = RibbonGroup.RibbonComponentSize.Medium,
                                 ribbonSubComponents = listOf<IRibbonSubComponent>(
                                     RibbonButton(
                                         name="button7",
@@ -643,8 +355,16 @@ fun App() {
                                 ),
                                 sizeDefinition = RibbonGroup.SizeDefinition.FourButtons
                             )
-                        )
+                        ),
+                            listOf<RibbonTabComponents.Scale>(
+                                RibbonTabComponents.Scale("group1",RibbonGroup.RibbonComponentSize.Large),
+                                RibbonTabComponents.Scale("group2",RibbonGroup.RibbonComponentSize.Medium),
+                                RibbonTabComponents.Scale("group4",RibbonGroup.RibbonComponentSize.Medium),
+                                RibbonTabComponents.Scale("group3",RibbonGroup.RibbonComponentSize.Medium),
+                                RibbonTabComponents.Scale("group4",RibbonGroup.RibbonComponentSize.Small),
+                            )
                     )
+
                     )
                 }
                 1 -> { Text("This is insert!")}
