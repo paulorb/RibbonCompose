@@ -1,9 +1,13 @@
 package org.example.project
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
@@ -30,6 +34,7 @@ class RibbonButton(private val name: String, private val imageLarge: DrawableRes
                 contentDescription = "Sample",
                 contentScale = ContentScale.None
             )
+            Spacer(modifier = Modifier.width(4.dp))
             Text("$name")
             //   }
         }

@@ -1,8 +1,13 @@
 package org.example.project
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 
 class RibbonGroup(
     private val name: String,
@@ -52,16 +57,22 @@ class RibbonGroup(
     fun twoButtons(scaleSize: RibbonComponentSize) {
         if(scaleSize == RibbonComponentSize.Large){
             Row {
-                ribbonSubComponents.forEach { subComponent ->
-                    Column {
-                        subComponent.compose(scaleSize)
-                    }
+                ribbonSubComponents.forEachIndexed {  index, subComponent->
+                    if(index != ribbonSubComponents.count() -1)
+                        Column(modifier = Modifier.padding(end = 8.dp),verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                            subComponent.compose(scaleSize)
+                        }
+                    else
+                        Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                            subComponent.compose(scaleSize)
+                        }
+
                 }
             }
         }
         else if(scaleSize == RibbonComponentSize.Medium){
             ribbonSubComponents.forEach { subComponent ->
-                Row {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     subComponent.compose(scaleSize)
                 }
             }
@@ -77,16 +88,22 @@ class RibbonGroup(
         }
         if(scaleSize == RibbonComponentSize.Large){
             Row {
-                ribbonSubComponents.forEach { subComponent ->
-                    Column {
-                        subComponent.compose(scaleSize)
-                    }
+                ribbonSubComponents.forEachIndexed {  index, subComponent->
+                    if(index != ribbonSubComponents.count() -1)
+                        Column(modifier = Modifier.padding(end = 8.dp),verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                            subComponent.compose(scaleSize)
+                        }
+                    else
+                        Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                            subComponent.compose(scaleSize)
+                        }
+
                 }
             }
         }
         else if(scaleSize == RibbonComponentSize.Medium){
             ribbonSubComponents.forEach { subComponent ->
-                Row {
+                Row(verticalAlignment = Alignment.CenterVertically)  {
                     subComponent.compose(scaleSize)
                 }
             }
@@ -102,43 +119,49 @@ class RibbonGroup(
         }
         if(scaleSize == RibbonComponentSize.Large){
             Row {
-                ribbonSubComponents.forEach { subComponent ->
-                    Column {
-                        subComponent.compose(scaleSize)
-                    }
+                ribbonSubComponents.forEachIndexed {  index, subComponent->
+                    if(index != ribbonSubComponents.count() -1)
+                        Column(modifier = Modifier.padding(end = 8.dp),verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                            subComponent.compose(scaleSize)
+                        }
+                    else
+                        Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                            subComponent.compose(scaleSize)
+                        }
+
                 }
             }
         }
         else if(scaleSize == RibbonComponentSize.Medium){
             Row {
-                Column {
+                Column(modifier = Modifier.padding(end = 8.dp),verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
                     ribbonSubComponents[0].compose(RibbonComponentSize.Large)
                 }
                 Column {
-                    Row {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         ribbonSubComponents[1].compose(RibbonComponentSize.Medium)
                     }
-                    Row {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         ribbonSubComponents[2].compose(RibbonComponentSize.Medium)
                     }
-                    Row {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         ribbonSubComponents[3].compose(RibbonComponentSize.Medium)
                     }
                 }
             }
         }else if(scaleSize == RibbonComponentSize.Small){
             Row {
-                Column {
+                Column(modifier = Modifier.padding(end = 8.dp),verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
                     ribbonSubComponents[0].compose(RibbonComponentSize.Large)
                 }
                 Column {
-                    Row {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         ribbonSubComponents[1].compose(RibbonComponentSize.Small)
                     }
-                    Row {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         ribbonSubComponents[2].compose(RibbonComponentSize.Small)
                     }
-                    Row {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         ribbonSubComponents[3].compose(RibbonComponentSize.Small)
                     }
                 }
@@ -151,22 +174,34 @@ class RibbonGroup(
     fun compose(scaleSize: RibbonComponentSize = this.idealSize) {
         when(this.sizeDefinition){
             SizeDefinition.OneButton -> {
-                Column {
+                Column(
+                    modifier = Modifier.padding(8.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally) {
                     oneButton()
                 }
             }
             SizeDefinition.TwoButtons -> {
-                Column {
+                Column(
+                    modifier = Modifier.padding(8.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally) {
                     twoButtons(scaleSize)
                 }
             }
             SizeDefinition.ThreeButtons -> {
-                Column {
+                Column(
+                    modifier = Modifier.padding(8.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally) {
                     threeButtons(scaleSize)
                 }
             }
             SizeDefinition.FourButtons -> {
-                Column {
+                Column(
+                    modifier = Modifier.padding(8.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally)  {
                     fourButtons(scaleSize)
                 }
             }
