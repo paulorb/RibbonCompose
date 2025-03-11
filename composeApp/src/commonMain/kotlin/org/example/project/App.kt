@@ -45,7 +45,7 @@ fun Modifier.ribbonTabInfo(name: String): Modifier {
 fun RibbonTabRow(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit) {
-    SubcomposeLayout(modifier = modifier.background(Color.Red)) {    constraints ->
+    SubcomposeLayout {    constraints ->
         val menuItemPlaceables = subcompose("MenuTabItems", content = content)
             .map {
                 it.measure(constraints)
@@ -180,7 +180,7 @@ fun RibbonTab(
 @OptIn(ExperimentalUuidApi::class)
 @Composable
 fun RibbonTabBody(ribbonTabComponents: RibbonTabComponents) {
-    SubcomposeLayout { constraints ->
+    SubcomposeLayout(modifier = Modifier.background(Color(0xF5F6F7FF))) { constraints ->
 
         // 1 - Build all elements with its ideal size
         // 2 - Measure all of them
@@ -195,7 +195,7 @@ fun RibbonTabBody(ribbonTabComponents: RibbonTabComponents) {
         //3 - If fits place all of them - END
         if(idealSizePlaceables.sumOf { it.width } <= constraints.maxWidth) {
             //Place
-            layout(constraints.maxWidth, constraints.maxHeight) {
+            layout(constraints.maxWidth, idealSizePlaceablesHeight) {
                 // Place the title at the top
                 var xOffset = 0
                 idealSizePlaceables.forEach { placeable ->
@@ -213,11 +213,11 @@ fun RibbonTabBody(ribbonTabComponents: RibbonTabComponents) {
                 val resizedPlaceables = subcompose("Resized" + Uuid.random().toString()) {
                     ribbonTabComponents.composeScaled()
                 }.map { it.measure(constraints) }
-
+                val resizedPlaceablesHeight = resizedPlaceables.maxOf { it.height }
                 if(resizedPlaceables.sumOf { it.width } <= constraints.maxWidth) {
                     notFit = false
                     //Place
-                    measurementResult = layout(constraints.maxWidth, constraints.maxHeight) {
+                    measurementResult = layout(constraints.maxWidth, resizedPlaceablesHeight) {
                         // Place the title at the top
                         var xOffset = 0
                         resizedPlaceables.forEach { placeable ->
@@ -271,7 +271,18 @@ fun App() {
                 RibbonTab("Design", tabIndex == 3, onClick = { tabIndex = 3; visible = !visible}, modifier = Modifier.ribbonTabInfo("Design"))
             }
         }
-        Row{
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .drawBehind {
+                val lineColor = Color(0xE7E8E8FF) // Example hex color (#FF5733)
+                val strokeWidth = 2.dp.toPx()
+                drawLine(
+                    color = lineColor,
+                    start = androidx.compose.ui.geometry.Offset(0f, size.height),
+                    end = androidx.compose.ui.geometry.Offset(size.width, size.height),
+                    strokeWidth = strokeWidth
+                )
+            }){
             when(tabIndex) {
                 0 -> {
                     RibbonTabBody(
