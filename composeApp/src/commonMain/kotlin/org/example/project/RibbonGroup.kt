@@ -1,13 +1,19 @@
 package org.example.project
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Divider
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.layout.MeasureResult
+import androidx.compose.ui.layout.Placeable
+import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 class RibbonGroup(
     private val name: String,
@@ -46,11 +52,54 @@ class RibbonGroup(
     fun getName() = name  //name must be unique
 
     @Composable
+    fun groupDivider() {
+        SubcomposeLayout { constraints ->
+
+            val measureRequiredSpace = subcompose("groupDivider") {
+                //worst case (in terms of height) are 3 buttons scenario
+                //TODO: when adding the name below the group this needs to be modified
+                Column(
+                    modifier = Modifier.padding(8.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text("placeholder")
+                    }
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text("placeholder")
+                    }
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text("placeholder")
+                    }
+                }
+
+            }.map { it.measure(constraints) }
+
+            val dividerPlaceable = subcompose("groupDividerContent") {
+                Divider(
+                    color = Color(0xE7E8E8FF),
+                    modifier = Modifier
+                        .width(1.dp) // Thickness
+                        .height(measureRequiredSpace.maxOf { it.height }.toDp())
+                )
+            }.map { it.measure(constraints) }
+
+            layout(2, measureRequiredSpace.maxOf { it.height }) {
+                dividerPlaceable.forEach { placeable -> placeable.place(x = 0, y = 0) }
+            }
+        }
+    }
+
+    @Composable
     fun oneButton() {
         if(scaleSize != RibbonComponentSize.Large) {
             throw IllegalArgumentException("Only large RibbonComponentSize are supported for OneButton size definition")
         }
-        ribbonSubComponents.first().compose(RibbonComponentSize.Large)
+
+            ribbonSubComponents.first().compose(RibbonComponentSize.Large)
+
+
+
     }
 
     @Composable
@@ -172,14 +221,21 @@ class RibbonGroup(
 
     @Composable
     fun compose(scaleSize: RibbonComponentSize = this.idealSize) {
+        val groupName = this.name
         when(this.sizeDefinition){
             SizeDefinition.OneButton -> {
-                Column(
-                    modifier = Modifier.padding(8.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally) {
-                    oneButton()
-                }
+
+                    Column(
+                        modifier = Modifier.padding(8.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        oneButton()
+                       // create a subcompose over this in order to print the group name below the group
+                    }
+
+
+
             }
             SizeDefinition.TwoButtons -> {
                 Column(
@@ -209,6 +265,8 @@ class RibbonGroup(
 
             }
         }
+        groupDivider()
+
 
 
 

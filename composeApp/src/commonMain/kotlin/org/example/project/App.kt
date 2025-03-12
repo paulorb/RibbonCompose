@@ -45,7 +45,7 @@ fun Modifier.ribbonTabInfo(name: String): Modifier {
 fun RibbonTabRow(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit) {
-    SubcomposeLayout {    constraints ->
+    SubcomposeLayout(modifier= Modifier.background(Color(0xF5F6F7FF))) {    constraints ->
         val menuItemPlaceables = subcompose("MenuTabItems", content = content)
             .map {
                 it.measure(constraints)
