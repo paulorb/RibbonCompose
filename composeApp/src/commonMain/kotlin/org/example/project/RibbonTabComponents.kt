@@ -51,6 +51,8 @@ class RibbonTabComponents(private val ribbonGroups: List<RibbonGroup>,
         scaledStateIndex = 0
     }
 
+
+
     @Composable
     fun composeScaled() {
         if(stackScaleOrder.size == 0){

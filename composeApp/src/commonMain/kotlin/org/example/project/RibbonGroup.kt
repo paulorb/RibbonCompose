@@ -8,10 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.Layout
-import androidx.compose.ui.layout.MeasureResult
-import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.layout.SubcomposeLayout
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -51,6 +49,7 @@ class RibbonGroup(
     fun getScaleSize() = scaleSize
     fun getName() = name  //name must be unique
 
+
     @Composable
     fun groupDivider() {
         SubcomposeLayout { constraints ->
@@ -71,6 +70,11 @@ class RibbonGroup(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text("placeholder")
                     }
+
+                        RibbonGroupLabel("group label")
+
+
+
                 }
 
             }.map { it.measure(constraints) }
@@ -218,47 +222,91 @@ class RibbonGroup(
         }
     }
 
+    @Composable
+    fun RibbonGroupLabel(groupLabelValue : String) {
+        Text(groupLabelValue, fontSize = 10.sp,fontFamily = FontFamily.SansSerif)
+    }
+
+    @Composable
+    fun RibbonGroupBody(body: @Composable () -> Unit) {
+        val groupLabelValue = this.name
+        SubcomposeLayout(modifier = Modifier.background(Color(0xF5F6F7FF))) { constraints ->
+            val dividerPlaceable = subcompose("divider", content = { groupDivider() })
+                .map {
+                    it.measure(constraints)
+                }
+
+            val bodyPlaceable = subcompose("body", content = body)
+                .map {
+                    it.measure(constraints)
+                }
+
+            val groupLabelPlaceable = subcompose("groupLabel", content = {
+                RibbonGroupLabel(groupLabelValue)
+            }).map {
+                it.measure(constraints)
+            }
+
+            //Height will be the height of the height of the divider
+            val layoutTotalHeight = dividerPlaceable.maxOf { placeable -> placeable.height }
+
+            val layoutTotalWidth = bodyPlaceable.maxOf { placeable -> placeable.width }
+
+            layout(layoutTotalWidth, layoutTotalHeight) {
+                bodyPlaceable.first().place(x = 0, y = 0)
+                groupLabelPlaceable.first().place(x = (layoutTotalWidth - groupLabelPlaceable.first().width)/2, y = (layoutTotalHeight -  groupLabelPlaceable.first().height) - 5)
+            }
+        }
+    }
 
     @Composable
     fun compose(scaleSize: RibbonComponentSize = this.idealSize) {
         val groupName = this.name
         when(this.sizeDefinition){
             SizeDefinition.OneButton -> {
+                RibbonGroupBody {
+                    Column(
+                        modifier = Modifier.padding(8.dp),
+                        verticalArrangement = Arrangement.SpaceBetween,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        oneButton()
+                    }
+                }
 
+
+            }
+            SizeDefinition.TwoButtons -> {
+                RibbonGroupBody {
+                    Column(
+                        modifier = Modifier.padding(8.dp),
+                        verticalArrangement = Arrangement.SpaceBetween,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        twoButtons(scaleSize)
+                    }
+                }
+            }
+            SizeDefinition.ThreeButtons -> {
+                RibbonGroupBody {
                     Column(
                         modifier = Modifier.padding(8.dp),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        oneButton()
-                       // create a subcompose over this in order to print the group name below the group
+                        threeButtons(scaleSize)
                     }
-
-
-
-            }
-            SizeDefinition.TwoButtons -> {
-                Column(
-                    modifier = Modifier.padding(8.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally) {
-                    twoButtons(scaleSize)
-                }
-            }
-            SizeDefinition.ThreeButtons -> {
-                Column(
-                    modifier = Modifier.padding(8.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally) {
-                    threeButtons(scaleSize)
                 }
             }
             SizeDefinition.FourButtons -> {
-                Column(
-                    modifier = Modifier.padding(8.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally)  {
-                    fourButtons(scaleSize)
+                RibbonGroupBody {
+                    Column(
+                        modifier = Modifier.padding(8.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        fourButtons(scaleSize)
+                    }
                 }
             }
             SizeDefinition.FiveOrSixButtons -> {
