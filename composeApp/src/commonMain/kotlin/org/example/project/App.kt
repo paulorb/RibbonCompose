@@ -73,6 +73,7 @@ fun App() {
                                         name="Open",
                                         imageLarge = Res.drawable.noteL,
                                         imageSmall = Res.drawable.noteS,
+                                        onClick = {}
                                     )
                                 )
                             ),
@@ -85,11 +86,13 @@ fun App() {
                                         name="Button2",
                                         imageLarge = Res.drawable.noteL,
                                         imageSmall = Res.drawable.noteS,
+                                        onClick = {}
                                     ),
                                     RibbonButton(
                                         name="button3",
                                         imageLarge = Res.drawable.noteL,
                                         imageSmall = Res.drawable.noteS,
+                                        onClick = {}
                                     )
                                 )
                             ),
@@ -101,16 +104,19 @@ fun App() {
                                         name="button4",
                                         imageLarge = Res.drawable.noteL,
                                         imageSmall = Res.drawable.noteS,
+                                        onClick = {}
                                     ),
                                     RibbonButton(
                                         name="button5",
                                         imageLarge = Res.drawable.noteL,
                                         imageSmall = Res.drawable.noteS,
+                                        onClick = {}
                                     ),
                                     RibbonButton(
                                         name="button6",
                                         imageLarge = Res.drawable.noteL,
                                         imageSmall = Res.drawable.noteS,
+                                        onClick = {}
                                     )
                                 ),
                                 sizeDefinition = RibbonGroup.SizeDefinition.ThreeButtons
@@ -123,21 +129,25 @@ fun App() {
                                         name="button7",
                                         imageLarge = Res.drawable.noteL,
                                         imageSmall = Res.drawable.noteS,
+                                        onClick = {}
                                     ),
                                     RibbonButton(
                                         name="button8",
                                         imageLarge = Res.drawable.noteL,
                                         imageSmall = Res.drawable.noteS,
+                                        onClick = {}
                                     ),
                                     RibbonButton(
                                         name="button9",
                                         imageLarge = Res.drawable.noteL,
                                         imageSmall = Res.drawable.noteS,
+                                        onClick = {}
                                     ),
                                     RibbonButton(
                                         name="button10",
                                         imageLarge = Res.drawable.noteL,
                                         imageSmall = Res.drawable.noteS,
+                                        onClick = {}
                                     )
                                 ),
                                 sizeDefinition = RibbonGroup.SizeDefinition.FourButtons

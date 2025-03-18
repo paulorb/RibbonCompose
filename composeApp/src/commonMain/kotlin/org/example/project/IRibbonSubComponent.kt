@@ -6,4 +6,5 @@ interface IRibbonSubComponent {
     fun getName(): String
     @Composable
     fun compose(scaleSize: RibbonGroup.RibbonComponentSize)
+    fun onClickEvent()
 }

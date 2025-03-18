@@ -16,7 +16,7 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
 
-class RibbonButton(private val name: String, private val imageLarge: DrawableResource, private val imageSmall: DrawableResource) : AbstractRibbonButton(name, imageLarge, imageSmall){
+class RibbonButton(private val name: String, private val imageLarge: DrawableResource, private val imageSmall: DrawableResource, private val onClick: () -> Unit) : AbstractRibbonButton(name, imageLarge, imageSmall){
     @Composable
     override fun compose(scaleSize: RibbonGroup.RibbonComponentSize) {
 
@@ -54,6 +54,11 @@ class RibbonButton(private val name: String, private val imageLarge: DrawableRes
             //   }
         }
     }
+
+    override fun onClickEvent() {
+        this.onClick()
+    }
+
 
 }
 

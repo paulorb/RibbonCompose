@@ -1,7 +1,9 @@
 package org.example.project
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.onClick
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -99,9 +101,13 @@ class RibbonGroup(
         if(scaleSize != RibbonComponentSize.Large) {
             throw IllegalArgumentException("Only large RibbonComponentSize are supported for OneButton size definition")
         }
-
-            ribbonSubComponents.first().compose(RibbonComponentSize.Large)
-
+        Column(
+            modifier = Modifier.padding(0.dp).clickable{ ribbonSubComponents.first().onClickEvent()},
+        verticalArrangement = Arrangement.SpaceBetween,
+        horizontalAlignment = Alignment.CenterHorizontally
+        ){
+        ribbonSubComponents.first().compose(RibbonComponentSize.Large)
+       }
 
 
     }
