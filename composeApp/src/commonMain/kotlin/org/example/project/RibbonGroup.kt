@@ -84,12 +84,12 @@ class RibbonGroup(
                     color = RibbonConfiguration.colorPattern.dividerColor,
                     modifier = Modifier
                         .width(1.dp) // Thickness
-                        .height(measureRequiredSpace.maxOf { it.height }.toDp())
+                        .height(measureRequiredSpace.maxOf { it.height }.toDp() - 7.dp)
                 )
             }.map { it.measure(constraints) }
 
             layout(2, measureRequiredSpace.maxOf { it.height }) {
-                dividerPlaceable.forEach { placeable -> placeable.place(x = 0, y = 0) }
+                dividerPlaceable.forEach { placeable -> placeable.place(x = 0, y = 5) }
             }
         }
     }

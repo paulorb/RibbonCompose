@@ -2,6 +2,7 @@ package org.example.project
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +28,7 @@ class RibbonButton(private val name: String, private val imageLarge: DrawableRes
                 contentDescription = "Sample",
                 contentScale = ContentScale.None
             )
+            Spacer(modifier = Modifier.height(4.dp))
             Text("$name", fontSize = 12.sp, fontFamily = FontFamily.SansSerif, color = RibbonConfiguration.colorPattern.fontColor)
             //   }
         }
