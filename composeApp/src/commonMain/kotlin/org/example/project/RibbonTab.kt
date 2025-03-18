@@ -28,17 +28,17 @@ fun RibbonTab(
             val y = size.height - strokeWidth /2
 
             drawLine(
-                Color.Red,
+                RibbonConfiguration.colorPattern.fontColor,
                 Offset(0f,y),
                 Offset(size.width, y),
                 strokeWidth
             )
         }) {
-            Text(name, fontWeight = FontWeight.Bold,modifier = modifier.padding(vertical = 4.dp))
+            Text(name, fontWeight = FontWeight.Bold,modifier = modifier.padding(vertical = 4.dp), color = RibbonConfiguration.colorPattern.fontColor)
         }
     }else{
         Box(modifier = modifier.padding(horizontal = 16.dp).clickable{ onClick()}) {
-            Text(name, modifier = modifier.padding(vertical = 4.dp))
+            Text(name, modifier = modifier.padding(vertical = 4.dp), color = RibbonConfiguration.colorPattern.fontColor)
         }
     }
 }

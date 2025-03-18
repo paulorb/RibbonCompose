@@ -14,7 +14,7 @@ import kotlin.uuid.Uuid
 @OptIn(ExperimentalUuidApi::class)
 @Composable
 fun RibbonTabBody(ribbonTabComponents: RibbonTabComponents) {
-    SubcomposeLayout(modifier = Modifier.background(Color(0xF5F6F7FF))) { constraints ->
+    SubcomposeLayout(modifier = Modifier.background(RibbonConfiguration.colorPattern.groupBackgroundColor)) { constraints ->
 
         // 1 - Build all elements with its ideal size
         // 2 - Measure all of them

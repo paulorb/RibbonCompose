@@ -81,7 +81,7 @@ class RibbonGroup(
 
             val dividerPlaceable = subcompose("groupDividerContent") {
                 Divider(
-                    color = Color(0xE7E8E8FF),
+                    color = RibbonConfiguration.colorPattern.dividerColor,
                     modifier = Modifier
                         .width(1.dp) // Thickness
                         .height(measureRequiredSpace.maxOf { it.height }.toDp())
@@ -224,13 +224,13 @@ class RibbonGroup(
 
     @Composable
     fun RibbonGroupLabel(groupLabelValue : String) {
-        Text(groupLabelValue, fontSize = 10.sp,fontFamily = FontFamily.SansSerif)
+        Text(groupLabelValue, fontSize = 10.sp,fontFamily = FontFamily.SansSerif, color = RibbonConfiguration.colorPattern.fontColor)
     }
 
     @Composable
     fun RibbonGroupBody(body: @Composable () -> Unit) {
         val groupLabelValue = this.name
-        SubcomposeLayout(modifier = Modifier.background(Color(0xF5F6F7FF))) { constraints ->
+        SubcomposeLayout(modifier = Modifier.background(RibbonConfiguration.colorPattern.groupBackgroundColor)) { constraints ->
             val dividerPlaceable = subcompose("divider", content = { groupDivider() })
                 .map {
                     it.measure(constraints)

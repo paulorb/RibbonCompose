@@ -50,7 +50,7 @@ fun App() {
         Row(modifier = Modifier
             .fillMaxWidth()
             .drawBehind {
-                val lineColor = Color(0xE7E8E8FF) // Example hex color (#FF5733)
+                val lineColor = RibbonConfiguration.colorPattern.dividerColor // Example hex color (#FF5733)
                 val strokeWidth = 2.dp.toPx()
                 drawLine(
                     color = lineColor,

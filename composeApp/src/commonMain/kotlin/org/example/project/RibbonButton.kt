@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.DrawableResource
@@ -26,7 +27,7 @@ class RibbonButton(private val name: String, private val imageLarge: DrawableRes
                 contentDescription = "Sample",
                 contentScale = ContentScale.None
             )
-            Text("$name", fontSize = 12.sp, fontFamily = FontFamily.SansSerif)
+            Text("$name", fontSize = 12.sp, fontFamily = FontFamily.SansSerif, color = RibbonConfiguration.colorPattern.fontColor)
             //   }
         }
         if(scaleSize ==  RibbonGroup.RibbonComponentSize.Medium) {
@@ -37,7 +38,7 @@ class RibbonButton(private val name: String, private val imageLarge: DrawableRes
                 contentScale = ContentScale.None
             )
             Spacer(modifier = Modifier.width(4.dp))
-            Text("$name", fontSize = 12.sp, fontFamily = FontFamily.SansSerif)
+            Text("$name", fontSize = 12.sp, fontFamily = FontFamily.SansSerif, color = RibbonConfiguration.colorPattern.fontColor)
             //   }
         }
         if( scaleSize ==  RibbonGroup.RibbonComponentSize.Small) {

@@ -32,7 +32,7 @@ fun Modifier.ribbonTabInfo(name: String): Modifier {
 fun RibbonTabRow(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit) {
-    SubcomposeLayout(modifier= Modifier.background(Color(0xF5F6F7FF))) { constraints ->
+    SubcomposeLayout(modifier= Modifier.background(RibbonConfiguration.colorPattern.tabRowBackgroundColor)) { constraints ->
         val menuItemPlaceables = subcompose("MenuTabItems", content = content)
             .map {
                 it.measure(constraints)
@@ -44,7 +44,7 @@ fun RibbonTabRow(
         }
 
         val moreItemsButtonPlaceable = subcompose("MoreItemsButton") {
-            Text("^")
+            Text("^", color = RibbonConfiguration.colorPattern.fontColor)
         }.map { it.measure(constraints) }
         val buttonMoreItemsMaxWidth = moreItemsButtonPlaceable.maxOf { placeable -> placeable.width}
 
