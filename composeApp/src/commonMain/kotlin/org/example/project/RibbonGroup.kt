@@ -1,19 +1,30 @@
 package org.example.project
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.onClick
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Divider
+import androidx.compose.material.DrawerDefaults.backgroundColor
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.onPointerEvent
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import hoverEffect
 
 class RibbonGroup(
     private val name: String,
@@ -23,7 +34,7 @@ class RibbonGroup(
 ) {
     private var scaleSize: RibbonComponentSize = RibbonComponentSize.Small
 
-    enum class RibbonComponentSize{
+    enum class RibbonComponentSize {
         Small,
         Medium,
         Large
@@ -38,16 +49,17 @@ class RibbonGroup(
     }
 
     companion object {
-        const val SCALE_ORDER_ANY=-1
+        const val SCALE_ORDER_ANY = -1
     }
 
-    fun deepCopy() : RibbonGroup {
+    fun deepCopy(): RibbonGroup {
         return RibbonGroup(this.name, this.idealSize, this.ribbonSubComponents, this.sizeDefinition)
     }
 
     fun setScaleSize(size: RibbonComponentSize) {
         scaleSize = size
     }
+
     fun getScaleSize() = scaleSize
     fun getName() = name  //name must be unique
 
@@ -62,7 +74,8 @@ class RibbonGroup(
                 Column(
                     modifier = Modifier.padding(8.dp),
                     verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally) {
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text("placeholder")
                     }
@@ -73,8 +86,7 @@ class RibbonGroup(
                         Text("placeholder")
                     }
 
-                        RibbonGroupLabel("group label")
-
+                    RibbonGroupLabel("group label")
 
 
                 }
@@ -96,18 +108,21 @@ class RibbonGroup(
         }
     }
 
+    @OptIn(ExperimentalComposeUiApi::class)
     @Composable
     fun oneButton() {
-        if(scaleSize != RibbonComponentSize.Large) {
+        if (scaleSize != RibbonComponentSize.Large) {
             throw IllegalArgumentException("Only large RibbonComponentSize are supported for OneButton size definition")
         }
+
         Column(
-            modifier = Modifier.padding(0.dp).clickable{ ribbonSubComponents.first().onClickEvent()},
-        verticalArrangement = Arrangement.SpaceBetween,
-        horizontalAlignment = Alignment.CenterHorizontally
-        ){
-        ribbonSubComponents.first().compose(RibbonComponentSize.Large)
-       }
+            modifier = Modifier.padding(0.dp).clickable { ribbonSubComponents.first().onClickEvent() }
+                .hoverEffect(),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            ribbonSubComponents.first().compose(RibbonComponentSize.Large)
+        }
 
 
     }
@@ -118,11 +133,11 @@ class RibbonGroup(
             Row {
                 ribbonSubComponents.forEachIndexed {  index, subComponent->
                     if(index != ribbonSubComponents.count() -1)
-                        Column(modifier = Modifier.padding(end = 8.dp),verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                        Column(modifier = Modifier.padding(end = 8.dp).hoverEffect(),verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
                             subComponent.compose(scaleSize)
                         }
                     else
-                        Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                        Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.hoverEffect()) {
                             subComponent.compose(scaleSize)
                         }
 
@@ -131,7 +146,7 @@ class RibbonGroup(
         }
         else if(scaleSize == RibbonComponentSize.Medium){
             ribbonSubComponents.forEach { subComponent ->
-                Row(verticalAlignment = Alignment.CenterVertically) {
+                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.hoverEffect()) {
                     subComponent.compose(scaleSize)
                 }
             }
@@ -149,11 +164,11 @@ class RibbonGroup(
             Row {
                 ribbonSubComponents.forEachIndexed {  index, subComponent->
                     if(index != ribbonSubComponents.count() -1)
-                        Column(modifier = Modifier.padding(end = 8.dp),verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                        Column(modifier = Modifier.padding(end = 8.dp).hoverEffect(),verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
                             subComponent.compose(scaleSize)
                         }
                     else
-                        Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                        Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.hoverEffect()) {
                             subComponent.compose(scaleSize)
                         }
 
@@ -162,7 +177,7 @@ class RibbonGroup(
         }
         else if(scaleSize == RibbonComponentSize.Medium){
             ribbonSubComponents.forEach { subComponent ->
-                Row(verticalAlignment = Alignment.CenterVertically)  {
+                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.hoverEffect())  {
                     subComponent.compose(scaleSize)
                 }
             }
@@ -180,11 +195,11 @@ class RibbonGroup(
             Row {
                 ribbonSubComponents.forEachIndexed {  index, subComponent->
                     if(index != ribbonSubComponents.count() -1)
-                        Column(modifier = Modifier.padding(end = 8.dp),verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                        Column(modifier = Modifier.padding(end = 8.dp).hoverEffect(),verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
                             subComponent.compose(scaleSize)
                         }
                     else
-                        Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                        Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.hoverEffect()) {
                             subComponent.compose(scaleSize)
                         }
 
@@ -193,34 +208,34 @@ class RibbonGroup(
         }
         else if(scaleSize == RibbonComponentSize.Medium){
             Row {
-                Column(modifier = Modifier.padding(end = 8.dp),verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(modifier = Modifier.padding(end = 8.dp).hoverEffect(),verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
                     ribbonSubComponents[0].compose(RibbonComponentSize.Large)
                 }
                 Column {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
+                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.hoverEffect()) {
                         ribbonSubComponents[1].compose(RibbonComponentSize.Medium)
                     }
-                    Row(verticalAlignment = Alignment.CenterVertically) {
+                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.hoverEffect()) {
                         ribbonSubComponents[2].compose(RibbonComponentSize.Medium)
                     }
-                    Row(verticalAlignment = Alignment.CenterVertically) {
+                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.hoverEffect()) {
                         ribbonSubComponents[3].compose(RibbonComponentSize.Medium)
                     }
                 }
             }
         }else if(scaleSize == RibbonComponentSize.Small){
             Row {
-                Column(modifier = Modifier.padding(end = 8.dp),verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(modifier = Modifier.padding(end = 8.dp).hoverEffect(),verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
                     ribbonSubComponents[0].compose(RibbonComponentSize.Large)
                 }
                 Column {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
+                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.hoverEffect()) {
                         ribbonSubComponents[1].compose(RibbonComponentSize.Small)
                     }
-                    Row(verticalAlignment = Alignment.CenterVertically) {
+                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.hoverEffect()) {
                         ribbonSubComponents[2].compose(RibbonComponentSize.Small)
                     }
-                    Row(verticalAlignment = Alignment.CenterVertically) {
+                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.hoverEffect()) {
                         ribbonSubComponents[3].compose(RibbonComponentSize.Small)
                     }
                 }
@@ -229,8 +244,13 @@ class RibbonGroup(
     }
 
     @Composable
-    fun RibbonGroupLabel(groupLabelValue : String) {
-        Text(groupLabelValue, fontSize = 10.sp,fontFamily = FontFamily.SansSerif, color = RibbonConfiguration.colorPattern.fontColor)
+    fun RibbonGroupLabel(groupLabelValue: String) {
+        Text(
+            groupLabelValue,
+            fontSize = 10.sp,
+            fontFamily = FontFamily.SansSerif,
+            color = RibbonConfiguration.colorPattern.fontColor
+        )
     }
 
     @Composable
@@ -260,7 +280,10 @@ class RibbonGroup(
 
             layout(layoutTotalWidth, layoutTotalHeight) {
                 bodyPlaceable.first().place(x = 0, y = 0)
-                groupLabelPlaceable.first().place(x = (layoutTotalWidth - groupLabelPlaceable.first().width)/2, y = (layoutTotalHeight -  groupLabelPlaceable.first().height) - 5)
+                groupLabelPlaceable.first().place(
+                    x = (layoutTotalWidth - groupLabelPlaceable.first().width) / 2,
+                    y = (layoutTotalHeight - groupLabelPlaceable.first().height) - 5
+                )
             }
         }
     }
@@ -268,7 +291,7 @@ class RibbonGroup(
     @Composable
     fun compose(scaleSize: RibbonComponentSize = this.idealSize) {
         val groupName = this.name
-        when(this.sizeDefinition){
+        when (this.sizeDefinition) {
             SizeDefinition.OneButton -> {
                 RibbonGroupBody {
                     Column(
@@ -282,6 +305,7 @@ class RibbonGroup(
 
 
             }
+
             SizeDefinition.TwoButtons -> {
                 RibbonGroupBody {
                     Column(
@@ -293,6 +317,7 @@ class RibbonGroup(
                     }
                 }
             }
+
             SizeDefinition.ThreeButtons -> {
                 RibbonGroupBody {
                     Column(
@@ -304,6 +329,7 @@ class RibbonGroup(
                     }
                 }
             }
+
             SizeDefinition.FourButtons -> {
                 RibbonGroupBody {
                     Column(
@@ -315,13 +341,12 @@ class RibbonGroup(
                     }
                 }
             }
+
             SizeDefinition.FiveOrSixButtons -> {
 
             }
         }
         groupDivider()
-
-
 
 
     }

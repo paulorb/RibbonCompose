@@ -3,6 +3,7 @@ package org.example.project
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -23,17 +24,19 @@ class RibbonButton(private val name: String, private val imageLarge: DrawableRes
 
         if(scaleSize == RibbonGroup.RibbonComponentSize.Large ) {
             //   Column {
+            Spacer(modifier = Modifier.height(4.dp))
             Image(
                 painter = painterResource(imageLarge),
                 contentDescription = "Sample",
                 contentScale = ContentScale.None
             )
             Spacer(modifier = Modifier.height(4.dp))
-            Text("$name", fontSize = 12.sp, fontFamily = FontFamily.SansSerif, color = RibbonConfiguration.colorPattern.fontColor)
+            Text("$name", fontSize = 12.sp, fontFamily = FontFamily.SansSerif, color = RibbonConfiguration.colorPattern.fontColor, modifier = Modifier.padding(horizontal = 2.dp))
+            Spacer(modifier = Modifier.height(4.dp))
             //   }
         }
         if(scaleSize ==  RibbonGroup.RibbonComponentSize.Medium) {
-            //    Row {
+            Spacer(modifier = Modifier.height(4.dp))
             Image(
                 painter = painterResource(imageSmall),
                 contentDescription = "Sample",
@@ -41,7 +44,7 @@ class RibbonButton(private val name: String, private val imageLarge: DrawableRes
             )
             Spacer(modifier = Modifier.width(4.dp))
             Text("$name", fontSize = 12.sp, fontFamily = FontFamily.SansSerif, color = RibbonConfiguration.colorPattern.fontColor)
-            //   }
+            Spacer(modifier = Modifier.height(4.dp))
         }
         if( scaleSize ==  RibbonGroup.RibbonComponentSize.Small) {
             //    Row {
