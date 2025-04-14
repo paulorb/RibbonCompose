@@ -63,8 +63,8 @@ fun App() {
                 0 -> {
                     RibbonTabBody(
                         RibbonTabComponents(
-                        listOf<RibbonGroup>(
-                            RibbonGroup(
+                            ribbonGroups {
+                            ribbonGroup(
                                 name = "group1",
                                 sizeDefinition = RibbonGroup.SizeDefinition.OneButton,
                                 idealSize = RibbonGroup.RibbonComponentSize.Large,
@@ -76,8 +76,8 @@ fun App() {
                                         onClick = {}
                                     )
                                 )
-                            ),
-                            RibbonGroup(
+                            )
+                            ribbonGroup(
                                 name = "group2",
                                 sizeDefinition = RibbonGroup.SizeDefinition.TwoButtons,
                                 idealSize = RibbonGroup.RibbonComponentSize.Large,
@@ -95,8 +95,8 @@ fun App() {
                                         onClick = {}
                                     )
                                 )
-                            ),
-                            RibbonGroup(
+                            )
+                            ribbonGroup(
                                 name = "group3",
                                 idealSize = RibbonGroup.RibbonComponentSize.Large,
                                 ribbonSubComponents = listOf<IRibbonSubComponent>(
@@ -120,8 +120,8 @@ fun App() {
                                     )
                                 ),
                                 sizeDefinition = RibbonGroup.SizeDefinition.ThreeButtons
-                            ),
-                            RibbonGroup(
+                            )
+                            ribbonGroup(
                                 name = "group4",
                                 idealSize = RibbonGroup.RibbonComponentSize.Large,
                                 ribbonSubComponents = listOf<IRibbonSubComponent>(
@@ -152,14 +152,14 @@ fun App() {
                                 ),
                                 sizeDefinition = RibbonGroup.SizeDefinition.FourButtons
                             )
-                        ),
-                            listOf<RibbonTabComponents.Scale>(
-                                RibbonTabComponents.Scale("group1",RibbonGroup.RibbonComponentSize.Large),
-                                RibbonTabComponents.Scale("group2",RibbonGroup.RibbonComponentSize.Medium),
-                                RibbonTabComponents.Scale("group4",RibbonGroup.RibbonComponentSize.Medium),
-                                RibbonTabComponents.Scale("group3",RibbonGroup.RibbonComponentSize.Medium),
-                                RibbonTabComponents.Scale("group4",RibbonGroup.RibbonComponentSize.Small),
-                            )
+                },
+                            scalePolicies {
+                                scalePolicy("group1", RibbonGroup.RibbonComponentSize.Large)
+                                scalePolicy("group2", RibbonGroup.RibbonComponentSize.Medium)
+                                scalePolicy("group4", RibbonGroup.RibbonComponentSize.Medium)
+                                scalePolicy("group3", RibbonGroup.RibbonComponentSize.Medium)
+                                scalePolicy("group4", RibbonGroup.RibbonComponentSize.Small)
+                            }
                     )
 
                     )

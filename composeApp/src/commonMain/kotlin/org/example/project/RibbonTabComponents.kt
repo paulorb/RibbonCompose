@@ -1,7 +1,37 @@
 package org.example.project
 
 import androidx.compose.runtime.Composable
+import org.example.project.RibbonTabComponents.Scale
 
+
+class RibbonGroupListBuilder {
+    private val ribbonGroups = mutableListOf<RibbonGroup>()
+
+    fun ribbonGroup(name: String, idealSize: RibbonGroup.RibbonComponentSize, ribbonSubComponents: List<IRibbonSubComponent>, sizeDefinition: RibbonGroup.SizeDefinition ) {
+        ribbonGroups.add(RibbonGroup(name, idealSize, ribbonSubComponents, sizeDefinition))
+    }
+
+    fun build(): List<RibbonGroup> = ribbonGroups
+}
+
+fun ribbonGroups(block: RibbonGroupListBuilder.() -> Unit): List<RibbonGroup> {
+    return RibbonGroupListBuilder().apply(block).build()
+}
+
+
+class ScalePoliciesListBuilder {
+    private val scalePolicies = mutableListOf<Scale>()
+
+    fun scalePolicy(groupName: String, scaleSize: RibbonGroup.RibbonComponentSize) {
+        scalePolicies.add(Scale(groupName, scaleSize))
+    }
+
+    fun build(): List<Scale> = scalePolicies
+}
+
+fun scalePolicies(block: ScalePoliciesListBuilder.() -> Unit): List<Scale> {
+    return ScalePoliciesListBuilder().apply(block).build()
+}
 
 class RibbonTabComponents(private val ribbonGroups: List<RibbonGroup>,
     private val scalePolicies: List<Scale>) {
